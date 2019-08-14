@@ -1,0 +1,18 @@
+####################################################################################################
+## FileName:             run-meson-setup.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+parameters:
+  preSetup: ''
+
+steps:
+
+- script: |
+    ${{ parameters.preSetup }}
+    meson setup build --buildtype=release --default-library=shared
+  name: 'Run_Meson_Setup'
+  displayName: 'Run Meson Setup'
+  workingDirectory: '$(Build.Repository.LocalPath)'
+  continueOnError: false

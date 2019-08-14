@@ -1,0 +1,16 @@
+####################################################################################################
+## FileName:             checkout-tcdfx.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+steps:
+
+- script: |
+    git add -A
+    git commit -m "[CI]: Updated binaries and headers from 'tom-corwin/tcdfx-libui'."
+    git push https://$(GitHubPAT)@github.com/tom-corwin/tcdfx.git
+  name: 'Push_Pipeline_Artifacts'
+  displayName: 'Push Pipeline Artifacts to TCDFx (https://github.com/tom-corwin/tcdfx)'
+  workingDirectory: '$(Build.BinariesDirectory)'
+  continueOnError: false

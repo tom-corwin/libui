@@ -1,0 +1,87 @@
+####################################################################################################
+## FileName:             download-pipeline-artifacts.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+steps:
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Windows10_x86_Headers'
+  displayName: 'Download Pipeline Artifacts (Libui_Windows10_x86 | Headers)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Windows10_x86'
+    itemPattern: '*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\headers'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Windows10_x86_Libraries'
+  displayName: 'Download Pipeline Artifacts (Libui_Windows10_x86 | Libraries)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Windows10_x86'
+    itemPattern: '*.dll'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\libraries\win-x86'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Windows10_amd64_Headers'
+  displayName: 'Download Pipeline Artifacts (Libui_Windows10_amd64 | Headers)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Windows10_amd64'
+    itemPattern: '*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\headers'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Windows10_amd64_Libraries'
+  displayName: 'Download Pipeline Artifacts (Libui_Windows10_amd64 | Libraries)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Windows10_amd64'
+    itemPattern: '!*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\libraries\win-x64'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Ubuntu1604_amd64_Headers'
+  displayName: 'Download Pipeline Artifacts (Libui_Ubuntu1604_amd64 | Headers)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Ubuntu1604_amd64'
+    itemPattern: '*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\headers'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_Ubuntu1604_amd64_Libraries'
+  displayName: 'Download Pipeline Artifacts (Libui_Ubuntu1604_amd64 | Libraries)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_Ubuntu1604_amd64'
+    itemPattern: '!*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\libraries\linux-x64'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_macOS1014_amd64_Headers'
+  displayName: 'Download Pipeline Artifacts (Libui_macOS1014_amd64 | Headers)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_macOS1014_amd64'
+    itemPattern: '*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\headers'
+
+- task: DownloadPipelineArtifact@2
+  name: 'Download_Pipeline_Artifacts_macOS1014_amd64_Libraries'
+  displayName: 'Download Pipeline Artifacts (Libui_macOS1014_amd64 | Libraries)'
+  continueOnError: false
+  inputs:
+    buildType: 'current'
+    artifactName: 'Libui_macOS1014_amd64'
+    itemPattern: '!*.h'
+    targetPath: '$(Build.BinariesDirectory)\sources\TCDFx.UI\libraries\osx-x64'

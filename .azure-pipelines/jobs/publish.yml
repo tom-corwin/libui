@@ -1,0 +1,27 @@
+####################################################################################################
+## FileName:             build.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+jobs:
+
+- job: 'Libui_TCDFxPublish'
+  dependsOn:
+  - Libui_Windows81_x86
+  - Libui_Windows81_amd64
+  - Libui_Windows10_x86
+  - Libui_Windows10_amd64
+  - Libui_Ubuntu1604_amd64
+  - Libui_macOS1013_amd64
+  - Libui_macOS1014_amd64
+  displayName: 'Libui (TCDFx Publish)'
+  pool:
+    vmImage: windows-2019
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/checkout-sources.yml
+  - template: ../steps/checkout-tcdfx.yml
+  - template: ../steps/download-pipeline-artifacts.yml
+  - template: ../steps/push-pipeline-artifacts.yml

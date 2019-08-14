@@ -1,0 +1,75 @@
+####################################################################################################
+## FileName:             azure-pipelines.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+## Global Configuration
+################################################################################
+
+name: $(Date:yyMMdd)$(Rev:rrr)
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - tcdfx-ci
+
+jobs:
+
+## Build Jobs
+################################################################################
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'Ubuntu1604'
+    osDisplayName: 'Ubuntu 16.04'
+    vmImage: 'ubuntu-16.04'
+    architecture: 'amd64'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'macOS1013'
+    osDisplayName: 'macOS 10.13'
+    vmImage: 'macOS-10.13'
+    architecture: 'amd64'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'macOS1014'
+    osDisplayName: 'macOS 10.14'
+    vmImage: 'macOS-10.14'
+    architecture: 'amd64'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'Windows81'
+    osDisplayName: 'Windows 8.1'
+    vmImage: 'vs2015-win2012r2'
+    architecture: 'amd64'
+    preSetup: 'call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64'
+    preBuild: 'call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'Windows81'
+    osDisplayName: 'Windows 8.1'
+    vmImage: 'vs2015-win2012r2'
+    architecture: 'x86'
+    preSetup: 'call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86'
+    preBuild: 'call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'Windows10'
+    osDisplayName: 'Windows 10'
+    vmImage: 'windows-2019'
+    architecture: 'amd64'
+    preSetup: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64'
+    preBuild: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" amd64'
+- template: ./.azure-pipelines/jobs/build.yml
+  parameters:
+    osName: 'Windows10'
+    osDisplayName: 'Windows 10'
+    vmImage: 'windows-2019'
+    architecture: 'x86'
+    preSetup: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86'
+    preBuild: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86'
+
+## Publish Jobs
+################################################################################
+- template: ./.azure-pipelines/jobs/publish.yml

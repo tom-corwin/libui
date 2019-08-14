@@ -1,0 +1,15 @@
+####################################################################################################
+## FileName:             install-meson-build.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+steps:
+
+- script: |
+    python -m pip install --upgrade pip setuptools wheel
+    pip install meson
+  name: 'Install_Meson_Build'
+  displayName: 'Install Meson Build'
+  workingDirectory: '$(Build.Repository.LocalPath)'
+  continueOnError: false

@@ -1,0 +1,31 @@
+####################################################################################################
+## FileName:             install-python.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+parameters:
+  vmImage: ''
+
+steps:
+
+- task: UsePythonVersion@0
+  condition: ne( '${{ parameters.vmImage }}', 'vs2015-win2012r2' )
+  name: 'Install_Python'
+  displayName: 'Install Python'
+  continueOnError: false
+  inputs:
+    versionSpec: '3.6'
+    architecture: 'x64'
+
+#TODO: See https://github.com/Microsoft/azure-pipelines-image-generation/issues/374
+- script: |
+    powershell -Command "Invoke-WebRequest https://www.python.org/ftp/python/3.7.1/python-3.7.1-amd64-webinstall.exe -OutFile C:\py3-setup.exe"
+    C:\py3-setup.exe /quiet PrependPath=0 InstallAllUsers=0 Include_launcher=0 InstallLauncherAllUsers=0 Include_test=0 Include_doc=0 Include_dev=0 Include_debug=0 Include_tcltk=0 TargetDir=C:\Python37
+    @echo ##vso[task.prependpath]C:\Python37
+    @echo ##vso[task.prependpath]C:\Python37\Scripts
+  condition: eq( '${{ parameters.vmImage }}', 'vs2015-win2012r2' )
+  name: 'Install_Python_Alt'
+  displayName: 'Install Python'
+  workingDirectory: '$(Build.Repository.LocalPath)'
+  continueOnError: false

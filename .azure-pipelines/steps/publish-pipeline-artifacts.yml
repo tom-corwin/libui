@@ -1,0 +1,73 @@
+####################################################################################################
+## FileName:             publish-pipeline-artifacts.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+parameters:
+  vmImage: ''
+  architecture: ''
+
+steps:
+
+- task: CopyFiles@2
+  condition: and(eq( '${{ parameters.vmImage }}', 'windows-2019' ), eq( '${{ parameters.architecture }}', 'x86'))
+  name: 'Copy_Pipeline_Artifacts_Windows_x86'
+  displayName: 'Copy Artifacts (win-x86)'
+  continueOnError: false
+  inputs:
+    contents: |
+     $(Build.Repository.LocalPath)\build\meson-out\libui.dll
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+    flattenFolders: true
+
+- task: CopyFiles@2
+  condition: and(eq( '${{ parameters.vmImage }}', 'windows-2019' ), eq( '${{ parameters.architecture }}', 'amd64'))
+  name: 'Copy_Pipeline_Artifacts_Windows_x64'
+  displayName: 'Copy Artifacts (win-x64)'
+  continueOnError: false
+  inputs:
+    contents: |
+     $(Build.Repository.LocalPath)\build\meson-out\libui.dll
+     $(Build.Repository.LocalPath)\ui_windows.h
+     $(Build.Repository.LocalPath)\ui.h
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+    flattenFolders: true
+
+- task: CopyFiles@2
+  condition: and(eq( '${{ parameters.vmImage }}', 'ubuntu-16.04' ), eq( '${{ parameters.architecture }}', 'amd64'))
+  name: 'Copy_Pipeline_Artifacts_Linux_x64'
+  displayName: 'Copy Artifacts (linux-x64)'
+  continueOnError: false
+  inputs:
+    contents: |
+     $(Build.Repository.LocalPath)/build/meson-out/libui.so
+     $(Build.Repository.LocalPath)/build/meson-out/libui.so.0
+     $(Build.Repository.LocalPath)/ui_unix.h
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+    flattenFolders: true
+
+- task: CopyFiles@2
+  condition: and(eq( '${{ parameters.vmImage }}', 'macos-10.14' ), eq( '${{ parameters.architecture }}', 'amd64'))
+  name: 'Copy_Pipeline_Artifacts_macOS_x64'
+  displayName: 'Copy Artifacts (osx-x64)'
+  continueOnError: false
+  inputs:
+    contents: |
+     $(Build.Repository.LocalPath)/build/meson-out/libui.dylib
+     $(Build.Repository.LocalPath)/build/meson-out/libui.A.dylib
+     $(Build.Repository.LocalPath)/ui_darwin.h
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+    cleanTargetFolder: true
+    flattenFolders: true
+
+- task: PublishPipelineArtifact@1
+  name: 'Publish_Pipeline_Artifacts'
+  displayName: 'Publish Pipeline Artifacts ($(Agent.JobName))'
+  continueOnError: false
+  inputs:
+    path: $(Build.ArtifactStagingDirectory)
+    artifact: $(Agent.JobName)

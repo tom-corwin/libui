@@ -1,0 +1,43 @@
+####################################################################################################
+## FileName:             build.yml
+## Copyright:            Copyright © 2017-2019 Thomas Corwin, et al. All Rights Reserved.
+## License:              https://github.com/tom-corwin/tcdfx/blob/master/LICENSE.md
+####################################################################################################
+
+parameters:
+  osName: ''
+  osDisplayName: ''
+  vmImage: ''
+  architecture: ''
+  preSetup: ''
+  preBuild: ''
+  postBuild: ''
+
+jobs:
+
+- job: 'Libui_${{ parameters.osName }}_${{ parameters.architecture }}'
+  displayName: 'Libui_${{ parameters.osName }}_${{ parameters.architecture }}'
+  pool:
+    vmImage: ${{ parameters.vmImage }}
+  workspace:
+    clean: all
+  steps:
+  - template: ../steps/checkout-sources.yml
+  - template: ../steps/install-python.yml
+    parameters:
+      vmImage: ${{ parameters.vmImage }}
+  - template: ../steps/install-meson-build.yml
+  - template: ../steps/install-ninja-build.yml
+    parameters:
+      architecture: ${{ parameters.architecture }}
+  - template: ../steps/run-meson-setup.yml
+    parameters:
+      preSetup: ${{ parameters.preSetup }}
+  - template: ../steps/run-ninja-build.yml
+    parameters:
+      preBuild: ${{ parameters.preBuild }}
+      postBuild: ${{ parameters.postBuild }}
+  - template: ../steps/publish-pipeline-artifacts.yml
+    parameters:
+      vmImage: ${{ parameters.vmImage }}
+      architecture: ${{ parameters.architecture }}
